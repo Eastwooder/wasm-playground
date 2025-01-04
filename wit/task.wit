@@ -1,0 +1,7 @@
+package example:task;
+
+world task {
+  import log: func(msg: string);
+
+  export run: func();
+}
