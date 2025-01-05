@@ -1,8 +1,18 @@
 package example:task;
 
+interface logging {
+    enum level {
+        debug,
+        info,
+        warn,
+        error,
+    }
+    /// Used for logging on the client
+    log: func(level: level, msg: string);
+}
+
 world task {
-  /// Used for logging on the client
-  import log: func(msg: string);
+  import logging;
 
   /// Executes the actual task
   export run: func();

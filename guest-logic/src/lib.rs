@@ -3,11 +3,13 @@ wit_bindgen::generate!({
     path: "../wit",
 });
 
+use crate::example::task::logging::{log, Level};
+
 struct MyTask;
 
 impl Guest for MyTask {
     fn run() {
-        log("there we are!");
+        log(Level::Debug, "there we are!");
     }
 }
 

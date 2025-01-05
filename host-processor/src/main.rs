@@ -1,3 +1,4 @@
+use crate::example::task::logging::{Host as LoggingHost, Level};
 use wasmtime::component::{Component, Linker};
 use wasmtime::{Engine, Store};
 
@@ -10,9 +11,15 @@ struct Processor {
     prefix: String,
 }
 
-impl TaskImports for Processor {
-    fn log(&mut self, msg: String) {
-        println!("{prefix}: {msg}", prefix = self.prefix);
+impl LoggingHost for Processor {
+    fn log(&mut self, level: Level, message: String) {
+        let level = match level {
+            Level::Debug => "debug",
+            Level::Info => "info",
+            Level::Warn => "warn",
+            Level::Error => "error",
+        };
+        println!("[{}:{level}] {message}", self.prefix);
     }
 }
 
@@ -25,7 +32,7 @@ fn main() -> wasmtime::Result<()> {
     let mut store = Store::new(
         &engine,
         Processor {
-            prefix: "[info]".to_owned(),
+            prefix: "host".to_owned(),
         },
     );
     let bindings = Task::instantiate(&mut store, &component, &linker)?;
