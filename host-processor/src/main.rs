@@ -1,4 +1,3 @@
-use wasmtime::component::__internal::anyhow::Context;
 use wasmtime::component::{Component, Linker};
 use wasmtime::{Engine, Store};
 
@@ -30,8 +29,6 @@ fn main() -> wasmtime::Result<()> {
         },
     );
     let bindings = Task::instantiate(&mut store, &component, &linker)?;
-    bindings
-        .call_run(&mut store)
-        .context("trying to call 'run'")?;
+    bindings.call_run(&mut store)?;
     Ok(())
 }

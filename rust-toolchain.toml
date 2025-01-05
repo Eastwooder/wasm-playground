@@ -1,8 +1,5 @@
 [toolchain]
-components = [ "rust-analyzer", "clippy" ]
-targets = [
-    "wasm32-unknown-unknown",
-    "wasm32-wasip2",
-    "x86_64-pc-windows-msvc"
-]
+version = "1.83.0"
+components = ["rust-analyzer", "clippy"]
+targets = ["wasm32-unknown-unknown", "wasm32-wasip2", "x86_64-pc-windows-msvc"]
 profile = "minimal"

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.7/.schema/devbox.schema.json",
+  "packages": [
+    "rustup@latest",
+    "libiconv@latest",
+    "wasm-tools@latest",
+    "wit-bindgen@latest",
+    "bacon@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "projectDir=$(dirname $(readlink -f \"$0\"))",
+      "rustupHomeDir=\"$projectDir\"/.rustup",
+      "mkdir -p $rustupHomeDir",
+      "export RUSTUP_HOME=$rustupHomeDir",
+      "export LIBRARY_PATH=$LIBRARY_PATH:\"$projectDir/nix/profile/default/lib\""
+    ],
+    "scripts": {
+      "clean": [
+        "cargo clean --manifest-path guest-logic/Cargo.toml",
+        "cargo clean --manifest-path host-processor/Cargo.toml"
+      ],
+      "build": [
+        "wit-bindgen markdown wit --out-dir target",
+        "cargo build --target wasm32-wasip2 --manifest-path guest-logic/Cargo.toml",
+        "cargo build --manifest-path host-processor/Cargo.toml"
+      ],
+      "clippy": [
+        "cargo clippy --manifest-path guest-logic/Cargo.toml",
+        "cargo clippy --manifest-path host-processor/Cargo.toml"
+      ],
+      "fmt": [
+        "cargo fmt --manifest-path guest-logic/Cargo.toml",
+        "cargo fmt --manifest-path host-processor/Cargo.toml"
+      ],
+      "run": ["cargo run --manifest-path host-processor/Cargo.toml"]
+    }
+  }
+}
