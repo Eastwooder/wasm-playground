@@ -1,7 +1,9 @@
 package example:task;
 
 world task {
+  /// Used for logging on the client
   import log: func(msg: string);
 
+  /// Executes the actual task
   export run: func();
 }

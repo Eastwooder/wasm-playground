@@ -1,6 +1,6 @@
 set shell := ["powershell.exe", "-c"]
 
-build: build-guest build-host
+build: generate-doc build-guest build-host
 
 clippy: clippy-guest clippy-host
 
@@ -8,6 +8,9 @@ fmt: fmt-guest fmt-host
 
 clean:
     cargo clean --manifest-path guest-logic/Cargo.toml
+
+generate-doc:
+    wit-bindgen markdown wit --out-dir target
 
 build-guest:
     cargo build --target wasm32-wasip2 --manifest-path guest-logic/Cargo.toml
